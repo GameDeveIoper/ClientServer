@@ -10,20 +10,26 @@ public class HitCounter {
     private Socket socket;
 
 
+    // Запуск клиента
     public static void main(String[] args) {
         new HitCounter();
     }
 
     public HitCounter(){
         try{
-            socket = new Socket("127.0.0.1", PORT_NUMBER); // Создаем сокет с адресом сервера и порта для сервера
+            // Создаем сокет с адресом сервера и порта для сервера
+            socket = new Socket("127.0.0.1", PORT_NUMBER);
+
             // Подключаемся к сервера и получаем ответ в виде потока входного сохраняем данные в in
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
             // Почучаем данные из обьекта in и сохраняем их в переменную с типом String
-            String s = in.readLine();
-            System.out.println("New visitor " + s); // Вываодим полученный count увеличенный на 1 на сервере
+            String answer = in.readLine();
+
+            // Вываодим полученный count увеличенный на 1 на сервере
+            System.out.println("I am visitor number " + answer);
         }catch (IOException e){
-            System.out.println("");
+            System.out.println("Exception was caught");
         }finally {
             try{
                 // Освобождаем ресурсы
