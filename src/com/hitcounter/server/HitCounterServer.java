@@ -16,15 +16,30 @@ public class HitCounterServer {
     public HitCounterServer(){
         System.out.println("Server is running...");
         try{
-            serverSocket = new ServerSocket(PORT_NUMBER);
-            socket = serverSocket.accept();
-            System.out.println("New connections");
+            serverSocket = new ServerSocket(PORT_NUMBER); // Создаем обект ServerSocket
+            // Создаем новый сокет для приема и отправки данных
+            socket = serverSocket.accept(); // Слушаем порт на наличие новых входящих подключений
+            System.out.println("New connections"); // Оповещаем о новом подключении после того как ктото подключится
+            // Получаем выходной поток и сохраняем его в обьект c типом PrintWriter
             PrintWriter toCilent = new PrintWriter(socket.getOutputStream(), true);
-            count++;
+            count++; // Счетчик посетителей сервера
+            // Пишем в поток увеличенный счетчик , оповещая о новом посетителе
             toCilent.println(""+count);
 
         }catch(IOException e){
 
+        }finally {
+            try{
+                // Освобождаем ресурсы после закрытия сервера
+                if(serverSocket != null && serverSocket.isClosed()){
+                    serverSocket.close();
+                }
+                if(socket != null){
+                    socket.close();
+                }
+            }catch (Exception e){
+
+            }
         }
     }
 
